@@ -30,22 +30,132 @@ provider:
       Action:
         - "iot:*"
       Resource: "*"
+    - 
+      Effect: "Allow"
+      Action:
+        - "dynamodb:*"
+      Resource: "*"
 
 functions:
-  hello:
-    handler: handler.hello
+  recorder:
+    handler: recorder/handler.hello
     events:
       - iot:
           sql: "SELECT * FROM 'rmit'"
+    environment:
+      EVENT_TABLE_NAME:
+        Ref: EventListDynamoDbTable
 
 # you can add CloudFormation resource templates here
-#resources:
-#  Resources:
-#    NewResource:
-#      Type: AWS::S3::Bucket
-#      Properties:
-#        BucketName: my-new-bucket
-#  Outputs:
-#     NewOutput:
-#       Description: "Description for the output"
-#       Value: "Some output value"
+resources:
+ Resources:
+    ScalingRole: 
+      Type: "AWS::IAM::Role"
+      Properties: 
+        AssumeRolePolicyDocument: 
+          Version: "2012-10-17"
+          Statement: 
+          - 
+            Effect: Allow
+            Principal: 
+              Service: 
+                - 
+                  "application-autoscaling.amazonaws.com"
+            Action: 
+            - 
+              "sts:AssumeRole"
+        Path: "/"
+        Policies: 
+          - 
+            PolicyName: root
+            PolicyDocument: 
+              Version: "2012-10-17"
+              Statement: 
+              - 
+                Effect: Allow
+                Action:          
+                - "dynamodb:DescribeTable"
+                - "dynamodb:UpdateTable"
+                - "cloudwatch:PutMetricAlarm"
+                - "cloudwatch:DescribeAlarms"
+                - "cloudwatch:GetMetricStatistics"
+                - "cloudwatch:SetAlarmState"
+                - "cloudwatch:DeleteAlarms"
+                Resource: "*"
+    EventListDynamoDbTable:
+      Type: 'AWS::DynamoDB::Table'
+      Properties:
+        ProvisionedThroughput:
+          ReadCapacityUnits: 5
+          WriteCapacityUnits: 5
+        AttributeDefinitions:
+          -
+            AttributeName: groupingKey
+            AttributeType: S
+          -
+            AttributeName: timestamp
+            AttributeType: N
+        KeySchema:
+          -
+            AttributeName: groupingKey
+            KeyType: HASH
+          -
+            AttributeName: timestamp
+            KeyType: RANGE
+    EventListTableWriteCapacityScalableTarget: 
+      Type: "AWS::ApplicationAutoScaling::ScalableTarget"
+      Properties: 
+        MaxCapacity: 100
+        MinCapacity: 5
+        ResourceId:
+          Fn::Join:
+            - "/"
+            - - table
+              -
+                Ref: EventListDynamoDbTable
+        RoleARN: 
+          Fn::GetAtt: ScalingRole.Arn
+        ScalableDimension: "dynamodb:table:WriteCapacityUnits"
+        ServiceNamespace: dynamodb
+    EventListTableWriteScalingPolicy: 
+      Type: "AWS::ApplicationAutoScaling::ScalingPolicy"
+      Properties: 
+        PolicyName: WriteAutoScalingPolicy
+        PolicyType: TargetTrackingScaling
+        ScalingTargetId: 
+          Ref: EventListTableWriteCapacityScalableTarget
+        TargetTrackingScalingPolicyConfiguration: 
+          TargetValue: 70
+          ScaleInCooldown: 60
+          ScaleOutCooldown: 60
+          PredefinedMetricSpecification: 
+            PredefinedMetricType: DynamoDBWriteCapacityUtilization
+    EventListTableReadCapacityScalableTarget: 
+      Type: "AWS::ApplicationAutoScaling::ScalableTarget"
+      Properties: 
+        MaxCapacity: 100
+        MinCapacity: 5
+        ResourceId:
+          Fn::Join:
+            - "/"
+            - - table
+              -
+                Ref: EventListDynamoDbTable
+        RoleARN: 
+          Fn::GetAtt: ScalingRole.Arn
+        ScalableDimension: "dynamodb:table:ReadCapacityUnits"
+        ServiceNamespace: dynamodb
+    EventListTableReadScalingPolicy: 
+      Type: "AWS::ApplicationAutoScaling::ScalingPolicy"
+      Properties: 
+        PolicyName: ReadAutoScalingPolicy
+        PolicyType: TargetTrackingScaling
+        ScalingTargetId: 
+          Ref: EventListTableReadCapacityScalableTarget
+        TargetTrackingScalingPolicyConfiguration: 
+          TargetValue: 70
+          ScaleInCooldown: 60
+          ScaleOutCooldown: 60
+          PredefinedMetricSpecification: 
+            PredefinedMetricType: DynamoDBReadCapacityUtilization
+ Outputs:
