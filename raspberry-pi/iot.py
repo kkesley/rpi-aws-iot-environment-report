@@ -1,6 +1,8 @@
 from AWSIoTPythonSDK.MQTTLib import AWSIoTMQTTClient
 from sense_hat import SenseHat
+import deviceid
 import json
+import time
 
 sense = SenseHat()
 sense.clear()
@@ -8,8 +10,10 @@ sense.clear()
 temp = sense.get_temperature()
 humidity = sense.get_humidity()
 data = {
+    "deviceid": deviceid.getserial(),
     "humidity": humidity,
     "temperature": temp,
+    "timestamp": time.time(),
 }
 dataStr = json.dumps(data)
 print(data)
