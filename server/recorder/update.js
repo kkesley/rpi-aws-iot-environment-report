@@ -26,10 +26,10 @@ const update = (table = "", key = "", {timestamp, temperature, humidity, devicei
         docClient.update(params, function(err, data) {
             if (err) {
                 console.error("Unable to update item. Error JSON:", JSON.stringify(err, null, 2));
-                res()
+                rej()
             } else {
                 console.log("UpdateItem succeeded:", JSON.stringify(data, null, 2));
-                rej()
+                res()
             }
         });
     })
