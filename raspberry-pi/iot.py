@@ -13,7 +13,7 @@ data = {
     "deviceid": deviceid.getserial(),
     "humidity": humidity,
     "temperature": temp,
-    "timestamp": time.time(),
+    "timestamp": int(round(time.time() * 1000)),
 }
 dataStr = json.dumps(data)
 print(data)

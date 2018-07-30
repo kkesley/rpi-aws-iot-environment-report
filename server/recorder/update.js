@@ -1,23 +1,25 @@
 const AWS = require('aws-sdk')
-const update = (table = "", key = "", {timestamp, temperature, humidity, deviceid} = {}) => {
+const update = (table = "", key = "", time = 0, {timestamp, temperature, humidity, deviceid} = {}) => {
     return new Promise((res, rej) => {
         var docClient = new AWS.DynamoDB.DocumentClient()
         var params = {
             TableName:table,
             Key:{
                 "groupingKey": key,
-                "timestamp": 0,
+                "timestamp": time,
             },
-            UpdateExpression: "set #temp = :temp, #hum = :hum, #device = :device",
+            UpdateExpression: "set #temp = :temp, #hum = :hum, #device = :device, #ca = :ca",
             ExpressionAttributeNames: {
                 "#temp": "temperature",
                 "#hum": "humidity",
                 "#device": "device",
+                "#ca": "created_at"
             },
             ExpressionAttributeValues:{
                 ":hum": humidity,
                 ":temp": temperature,
                 ":device":deviceid,
+                ":ca": timestamp
             },
             ReturnValues:"UPDATED_NEW"
         };
