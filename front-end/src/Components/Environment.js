@@ -84,7 +84,7 @@ class Environment extends Component {
               {
                 this.props.environment.pressure ?
                 <div className="m-error_description" style={{marginLeft:10, display:'inline'}}>
-                  <h2 style={{color:color, textStrokeColor: color, WebkitTextStrokeColor: color, display:"inline"}}>Pressure: {this.props.environment.pressure.toFixed(2)}hPa</h2>
+                  <h2 style={{color:color, textStrokeColor: color, WebkitTextStrokeColor: color, display:"inline"}}>Pressure: {this.props.environment.pressure.toFixed(2)} mbar</h2>
                 </div>:null
               }
             </div>
