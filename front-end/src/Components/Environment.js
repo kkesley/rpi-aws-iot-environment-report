@@ -61,15 +61,24 @@ class Environment extends Component {
               {this.props.environment.temperature} <sup style={{marginLeft:-30,fontSize: '6rem'}}>&deg;C</sup>
               </h1>
             </span>
+            <div className="m-error_description" style={{ textAlign:"center", display:'inline'}}>
+              <h2 style={{color:color, textStrokeColor: color, WebkitTextStrokeColor: color, display:"inline"}}>Humidity: {this.props.environment.humidity}%</h2>
+            </div>
+            <div className="m-error_description" style={{ textAlign:"center", display:'inline'}}>
+              <h2 style={{color:color, textStrokeColor: color, WebkitTextStrokeColor: color, display:"inline"}}>Pressure: {this.props.environment.humidity}hPa</h2>
+            </div>
             <div className="m-error_description">
+                <strong>
                 <blockquote>
                 {quote.text}
                 </blockquote>
                 <cite>– {quote.cite}</cite>
+                </strong>
             </div>
+            
           </div>
 
-          <div style={{position:'absolute', bottom: 0, width:'100%', backgroundColor:"#FFFFFF"}}>
+          <div className="forecast" style={{position:'absolute', bottom: 0, width:'100%', backgroundColor:"#FFFFFF"}}>
             
             <div style={{height: 300, width:"40%", marginLeft: 20, backgroundColor:"#FFFFFF", padding: 20, display:"inline-block"}}>
               <h3 style={{marginLeft: 20}}>Temperature History</h3>
