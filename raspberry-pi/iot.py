@@ -5,6 +5,7 @@ import deviceid
 import json
 import time
 
+# code supplied from http://yaab-arduino.blogspot.com/2016/08/accurate-temperature-reading-sensehat.html
 # get CPU temperature
 def get_cpu_temp():
   res = os.popen("vcgencmd measure_temp").readline()

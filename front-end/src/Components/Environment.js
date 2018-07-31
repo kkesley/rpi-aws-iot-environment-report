@@ -4,18 +4,38 @@ import GetEnvironment from '../Graphql/Queries/GetEnvironment'
 import SubscribeEnvironment from '../Graphql/Subscription/SubscribeEnvironment'
 import quotes from './quotes'
 import { LineChart, Line, ResponsiveContainer, Tooltip, CartesianGrid, XAxis, YAxis } from 'recharts';
-
+import moment from 'moment'
 
 
 class Environment extends Component {
+    constructor(props){
+      super(props)
+      this.state = {
+        environments:[],
+      }
+    }
     componentWillMount(){
       this.props.environmentSubscription();
+    }
+    componentDidMount(){
+      fetch("https://39l8mb1k1a.execute-api.ap-southeast-2.amazonaws.com/dev/latest")
+      .then(res => res.json())
+      .then(res => {
+        console.log(res)
+        this.setState({
+          environments: res.Items.map(item => ({
+            ...item,
+            name: moment(item.created_at).startOf("hour").format("HH:mm")
+          }))
+        })
+      })
+      .catch(err => {console.log(err)})
     }
     getColor(temperature){
         if(temperature > 30){
             return "#b90b0b"
         }else if (temperature > 10){
-            return "#2bbb4b"
+            return "#eeff34"
         }else{
             return "#3557ff"
         }
@@ -46,15 +66,6 @@ class Environment extends Component {
       }
       const color = this.getColor(this.props.environment.temperature)
       const quote = this.getQuote(this.props.environment.temperature)
-      const data = [
-        {name: 'Page A', temp: 4000},
-        {name: 'Page B', temp: 3000},
-        {name: 'Page C', temp: 2000},
-        {name: 'Page D', temp: 2780},
-        {name: 'Page E', temp: 1890},
-        {name: 'Page F', temp: 2390},
-        {name: 'Page G', temp: 3490},
-      ]
       return (
         <div className="m-grid__item m-grid__item--fluid m-grid  m-error-3" style={{display:"flex",flexDirection:'column', backgroundImage: this.getBackground(this.props.environment.temperature)}}>
           <div className="m-error_container" style={{flex: '1 0 auto'}}>
@@ -77,9 +88,9 @@ class Environment extends Component {
                 </div>:null
               }
             </div>
-            <div className="m-error_description">
+            <div className="m-error_description" style={{textAlign:"center"}}>
                 <strong>
-                <blockquote>
+                <blockquote style={{textAlign:"center"}}>
                 {quote.text}
                 </blockquote>
                 <cite>– {quote.cite}</cite>
@@ -93,24 +104,24 @@ class Environment extends Component {
             <div style={{height: 200, width:"40%", marginLeft: 20, backgroundColor:"#FFFFFF", padding: 20, display:"inline-block"}}>
               <h3 style={{marginLeft: 20}}>Temperature History</h3>
               <ResponsiveContainer width="100%" height={200}>
-                <LineChart data={data}>
+                <LineChart data={this.state.environments}>
                   <XAxis dataKey="name" />
                   <YAxis />
                   <CartesianGrid strokeDasharray="3 3" />
                   <Tooltip />
-                  <Line type="monotone" dataKey="temp" stroke="#8884d8" />
+                  <Line type="monotone" dataKey="temperature" stroke="#8884d8" />
                 </LineChart>
               </ResponsiveContainer>
             </div>
             <div style={{height: 200, width:"40%", marginRight: 20, backgroundColor:"#FFFFFF", padding: 20, display:"inline-block", float:'right'}}>
               <h3 style={{marginLeft: 20}}>Humidity History</h3>
               <ResponsiveContainer width="100%" height={200}>
-                <LineChart data={data}>
+                <LineChart data={this.state.environments}>
                   <XAxis dataKey="name" />
                   <YAxis />
                   <CartesianGrid strokeDasharray="3 3" />
                   <Tooltip />
-                  <Line type="monotone" dataKey="temp" stroke="#8884d8" />
+                  <Line type="monotone" dataKey="humidity" stroke="#8884d8" />
                 </LineChart>
               </ResponsiveContainer>
             </div>
