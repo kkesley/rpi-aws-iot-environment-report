@@ -24,7 +24,7 @@ class Environment extends Component {
         if(temperature > 30){
             return "url(./temp-hot.jpg)"
         }else if (temperature > 10){
-            return "url(./temp-medium.jpg)"
+            return "url(./temp-med.jpg)"
         }else{
             return "url(./temp-cold.jpg)"
         }
