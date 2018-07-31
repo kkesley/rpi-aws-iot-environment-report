@@ -1,4 +1,4 @@
-Temporary Hosting URL: http://rmit-iot.s3-website-ap-southeast-2.amazonaws.com
+Temporary Hosting URL: http://rmit-iot.s3-website-ap-southeast-2.amazonaws.com / https://bit.ly/2M9dPJz
 
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 
