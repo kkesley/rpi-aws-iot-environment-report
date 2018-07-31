@@ -18,7 +18,7 @@ class App extends Component {
 
 const WithProvider = () => (
   <ApolloProvider client={client}>
-      <Rehydrated className="asd">
+      <Rehydrated>
           <App />
       </Rehydrated>
   </ApolloProvider>

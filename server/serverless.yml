@@ -51,6 +51,16 @@ functions:
       APPSYNC_API_KEY: da2-shsjzvnn4bgltg6kvwlen3py6y
       APPSYNC_HOST: pcqs3omaljbghgj5cf7jfmykyi.appsync-api.ap-southeast-2.amazonaws.com
       APPSYNC_REGION: ap-southeast-2
+  get-latest:
+    handler: get-latest/handler.main
+    events:
+      - http:
+          path: /latest
+          method: get
+          cors: true
+    environment:
+      EVENT_TABLE_NAME:
+        Ref: EventListDynamoDbTable
 
 # you can add CloudFormation resource templates here
 resources:

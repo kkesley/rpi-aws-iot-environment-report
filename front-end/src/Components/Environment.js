@@ -41,7 +41,9 @@ class Environment extends Component {
         return tempQuotes[Math.floor(Math.random()*tempQuotes.length)]
     }
     render(){
-      console.log(this.props)
+      if(!this.props.environment){
+        return null
+      }
       const color = this.getColor(this.props.environment.temperature)
       const quote = this.getQuote(this.props.environment.temperature)
       const data = [
@@ -54,18 +56,26 @@ class Environment extends Component {
         {name: 'Page G', temp: 3490},
       ]
       return (
-        <div className="m-grid__item m-grid__item--fluid m-grid  m-error-3" style={{backgroundImage: this.getBackground(this.props.environment.temperature)}}>
-          <div className="m-error_container">
+        <div className="m-grid__item m-grid__item--fluid m-grid  m-error-3" style={{display:"flex",flexDirection:'column', backgroundImage: this.getBackground(this.props.environment.temperature)}}>
+          <div className="m-error_container" style={{flex: '1 0 auto'}}>
             <span className="m-error_number">
               <h1 style={{color: color, textStrokeColor: color, WebkitTextStrokeColor: color}}>
-              {this.props.environment.temperature} <sup style={{marginLeft:-30,fontSize: '6rem'}}>&deg;C</sup>
+              {Math.round(this.props.environment.temperature)} <sup style={{marginLeft:-30,fontSize: '6rem'}}>&deg;C</sup>
               </h1>
             </span>
-            <div className="m-error_description" style={{ textAlign:"center", display:'inline'}}>
-              <h2 style={{color:color, textStrokeColor: color, WebkitTextStrokeColor: color, display:"inline"}}>Humidity: {this.props.environment.humidity}%</h2>
-            </div>
-            <div className="m-error_description" style={{ textAlign:"center", display:'inline'}}>
-              <h2 style={{color:color, textStrokeColor: color, WebkitTextStrokeColor: color, display:"inline"}}>Pressure: {this.props.environment.humidity}hPa</h2>
+            <div className="sub-info">
+              {
+                this.props.environment.humidity ?
+                  <div className="m-error_description" style={{ textAlign:"center", display:'inline'}}>
+                  <h2 style={{color:color, textStrokeColor: color, WebkitTextStrokeColor: color, display:"inline"}}>Humidity: {this.props.environment.humidity.toFixed(2)}%</h2>
+                </div>:null
+              }
+              {
+                this.props.environment.pressure ?
+                <div className="m-error_description" style={{ textAlign:"center", display:'inline'}}>
+                  <h2 style={{color:color, textStrokeColor: color, WebkitTextStrokeColor: color, display:"inline"}}>Pressure: {this.props.environment.pressure.toFixed(2)}hPa</h2>
+                </div>:null
+              }
             </div>
             <div className="m-error_description">
                 <strong>
@@ -78,11 +88,11 @@ class Environment extends Component {
             
           </div>
 
-          <div className="forecast" style={{position:'absolute', bottom: 0, width:'100%', backgroundColor:"#FFFFFF"}}>
+          <div className="forecast" style={{ width:'100%', backgroundColor:"#FFFFFF", flexShrink:0}}>
             
-            <div style={{height: 300, width:"40%", marginLeft: 20, backgroundColor:"#FFFFFF", padding: 20, display:"inline-block"}}>
+            <div style={{height: 200, width:"40%", marginLeft: 20, backgroundColor:"#FFFFFF", padding: 20, display:"inline-block"}}>
               <h3 style={{marginLeft: 20}}>Temperature History</h3>
-              <ResponsiveContainer width="100%" height={300}>
+              <ResponsiveContainer width="100%" height={200}>
                 <LineChart data={data}>
                   <XAxis dataKey="name" />
                   <YAxis />
@@ -92,9 +102,9 @@ class Environment extends Component {
                 </LineChart>
               </ResponsiveContainer>
             </div>
-            <div style={{height: 300, width:"40%", marginRight: 20, backgroundColor:"#FFFFFF", padding: 20, display:"inline-block", float:'right'}}>
+            <div style={{height: 200, width:"40%", marginRight: 20, backgroundColor:"#FFFFFF", padding: 20, display:"inline-block", float:'right'}}>
               <h3 style={{marginLeft: 20}}>Humidity History</h3>
-              <ResponsiveContainer width="100%" height={300}>
+              <ResponsiveContainer width="100%" height={200}>
                 <LineChart data={data}>
                   <XAxis dataKey="name" />
                   <YAxis />

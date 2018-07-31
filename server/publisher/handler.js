@@ -2,7 +2,7 @@ const AWS = require('aws-sdk')
 const config = require('./config').default;
 const axios = require('axios')
 module.exports.main = (event, context, callback) => {
-    if(!event.temperature || !event.humidity || !event.deviceid || !event.timestamp || !event.pressure){
+    if((!event.temperature && event.temperature !== 0) || (!event.humidity && event.humidity !== 0) || !event.deviceid || !event.timestamp || (!event.pressure && event.pressure !== 0)){
         return callback(null, "invalid request");
     }
     publish(event).then(result => {

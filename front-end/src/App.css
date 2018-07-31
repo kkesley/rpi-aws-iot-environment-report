@@ -6,6 +6,9 @@ canvas {
   .forecast {
     display: none;
   }
+  .sub-info{
+    display:none!important;
+  }
 }
 h1, h2, h3, h4, h5, h6,
 .h1, .h2, .h3, .h4, .h5, .h6 {
@@ -699,7 +702,7 @@ router-outlet {
   background-attachment: fixed;
   background-size: cover; }
   .m-error-3 .m-error_container .m-error_number > h1 {
-    font-size: 15.7rem;
+    font-size: 10rem;
     margin-left: 7.85rem;
     margin-top: 2.4rem;
     font-weight: 500;
