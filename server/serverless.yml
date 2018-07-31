@@ -28,23 +28,29 @@ provider:
     - 
       Effect: "Allow"
       Action:
-        - "iot:*"
-      Resource: "*"
-    - 
-      Effect: "Allow"
-      Action:
         - "dynamodb:*"
+        - "appsync:GraphQL"
+        - "iot:*"
       Resource: "*"
 
 functions:
   recorder:
-    handler: recorder/handler.hello
+    handler: recorder/handler.main
     events:
       - iot:
           sql: "SELECT * FROM 'rmit'"
     environment:
       EVENT_TABLE_NAME:
         Ref: EventListDynamoDbTable
+  publisher:
+    handler: publisher/handler.main
+    events:
+      - iot:
+          sql: "SELECT * FROM 'rmit'"
+    environment:
+      APPSYNC_API_KEY: da2-shsjzvnn4bgltg6kvwlen3py6y
+      APPSYNC_HOST: pcqs3omaljbghgj5cf7jfmykyi.appsync-api.ap-southeast-2.amazonaws.com
+      APPSYNC_REGION: ap-southeast-2
 
 # you can add CloudFormation resource templates here
 resources:

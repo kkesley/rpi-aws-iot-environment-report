@@ -1,10 +1,10 @@
 const recorder = require('./recorder')
-module.exports.hello = (event, context, callback) => {
+module.exports.main = (event, context, callback) => {
   console.log(event)
   if(!process.env.EVENT_TABLE_NAME){
     return callback(null, "No table specified")
   }
-  if(!event.temperature || !event.humidity || !event.deviceid || !event.timestamp){
+  if(!event.temperature || !event.humidity || !event.deviceid || !event.timestamp || !event.pressure){
     return callback(null, "invalid request");
   }
   recorder(process.env.EVENT_TABLE_NAME, event).then(_ => {
