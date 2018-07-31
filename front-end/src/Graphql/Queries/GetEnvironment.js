@@ -6,6 +6,7 @@ query GetEnvironment($groupingKey: ID!, $timestamp: Int!) {
       groupingKey
       timestamp
       temperature
+      pressure
       humidity
       device
       created_at
