@@ -1,4 +1,4 @@
-# Raspberry Pi Environment Reporting using AWS IOT
+# Simple Realtime Environment Reporting using AWS IOT & Raspberry Pi
 
 Realtime Temperature / Humidity / Pressure reporting using raspberry pi and AWS IoT
 
