@@ -1,8 +1,0 @@
-{
-    "client": "raspberry-RMIT",
-    "endpoint": "a2jwan9azy4oaj.iot.ap-southeast-2.amazonaws.com",
-    "port": 8883,
-    "root-ca": "./root-ca.pem",
-    "private-key": "./f3ed0017cd-private.pem.key",
-    "certificate": "./f3ed0017cd-certificate.pem.crt"
-}
