@@ -1,3 +1,4 @@
+//Create AppSync.js in current folder
 export default {
     apiKey: "API KEY",
     region: 'REGION',

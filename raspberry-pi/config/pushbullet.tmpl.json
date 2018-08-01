@@ -1,4 +1,5 @@
 {
+    "__comment": "create pushbullet.json in current folder",
     "push-url": "https://api.pushbullet.com/v2/pushes",
     "access-token": "YOUR_ACCESS_TOKEN",
     "message": {
