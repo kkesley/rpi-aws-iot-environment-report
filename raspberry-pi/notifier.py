@@ -19,5 +19,3 @@ except FileNotFoundError:
     print("config file not found")
 except:
     print("Fail to call pushbullet API")
-
-
