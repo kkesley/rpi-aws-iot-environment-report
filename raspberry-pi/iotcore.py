@@ -1,4 +1,5 @@
-from AWSIoTPythonSDK.MQTTLib import AWSIoTMQTTClient, exception
+from AWSIoTPythonSDK.MQTTLib import AWSIoTMQTTClient
+from AWSIoTPythonSDK import exception
 import json
 class IOTCore:
     def __init__(self):
