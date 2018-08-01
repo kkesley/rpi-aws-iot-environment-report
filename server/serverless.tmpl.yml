@@ -1,21 +1,7 @@
-# Welcome to Serverless!
-#
-# This file is the main config file for your service.
-# It's very minimal at this point and uses default values.
-# You can always add more config options for more control.
-# We've included some commented out config examples here.
-# Just uncomment any of them to get that config option.
-#
-# For full config options, check the docs:
-#    docs.serverless.com
-#
-# Happy Coding!
+# Add serverless.yml to current folder
+# change variables in custom to your specific details
 
 service: aws-nodejs # NOTE: update this with your service name
-
-# You can pin your service to only deploy with a specific Serverless version
-# Check out our docs for more details
-# frameworkVersion: "=X.X.X"
 
 provider:
   name: aws
@@ -23,7 +9,7 @@ provider:
 
   region: ap-southeast-2
 
-# you can add statements to the Lambda function's IAM Role here
+  # you can add statements to the Lambda function's IAM Role here
   iamRoleStatements:
     - 
       Effect: "Allow"
@@ -32,6 +18,11 @@ provider:
         - "appsync:GraphQL"
         - "iot:*"
       Resource: "*"
+
+custom:
+  APPSYNC_API_KEY: APPSYNC_API_KEY_HERE
+  APPSYNC_HOST: xxxxx.appsync-api.{REGION}.amazonaws.com
+  APPSYNC_REGION: REGION_HERE
 
 functions:
   recorder:
@@ -48,9 +39,9 @@ functions:
       - iot:
           sql: "SELECT * FROM 'rmit'"
     environment:
-      APPSYNC_API_KEY: da2-shsjzvnn4bgltg6kvwlen3py6y
-      APPSYNC_HOST: pcqs3omaljbghgj5cf7jfmykyi.appsync-api.ap-southeast-2.amazonaws.com
-      APPSYNC_REGION: ap-southeast-2
+      APPSYNC_API_KEY: ${self:custom.APPSYNC_API_KEY}
+      APPSYNC_HOST: ${self:custom.APPSYNC_HOST}
+      APPSYNC_REGION: ${self:custom.APPSYNC_REGION}
   get-latest:
     handler: get-latest/handler.main
     events:
@@ -174,4 +165,3 @@ resources:
           ScaleOutCooldown: 60
           PredefinedMetricSpecification: 
             PredefinedMetricType: DynamoDBReadCapacityUtilization
- Outputs:

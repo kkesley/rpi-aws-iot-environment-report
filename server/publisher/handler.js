@@ -1,10 +1,12 @@
 const AWS = require('aws-sdk')
-const config = require('./config').default;
+const config = require('./config').default; // Require config file with endpoint and auth info
 const axios = require('axios')
 module.exports.main = (event, context, callback) => {
+    //required fields
     if((!event.temperature && event.temperature !== 0) || (!event.humidity && event.humidity !== 0) || !event.deviceid || !event.timestamp || (!event.pressure && event.pressure !== 0)){
         return callback(null, "invalid request");
     }
+    //publish the event to app sync
     publish(event).then(result => {
         console.log(result.data)
         console.log(result.data.errors)
@@ -15,16 +17,14 @@ module.exports.main = (event, context, callback) => {
 };
 
 function publish(event){
-    // Require exports file with endpoint and auth info
-    
+    // construct request object
     let req = new AWS.HttpRequest(config.ENDPOINT, config.REGION);
     req.method = 'POST';
-    req.headers.host = config.HOST;
+    req.headers.host = config.HOST; // app sync host
     req.headers['Content-Type'] = 'multipart/form-data';
-    req.headers["x-api-key"] = process.env.APPSYNC_API_KEY
+    req.headers["x-api-key"] = process.env.APPSYNC_API_KEY // app sync key
     req.body = JSON.stringify({
-        // "query":"mutation ($input: UpdateUsersCamsInput!) { updateUsersCams(input: $input){ latestImage uid name } }",
-        query: "mutation ($input: CreateEnvironmentInput!) {createEnvironment(input: $input){groupingKey timestamp temperature humidity pressure device created_at } }",
+        query: "mutation ($input: CreateEnvironmentInput!) {createEnvironment(input: $input){groupingKey timestamp temperature humidity pressure device created_at } }", //graphql query for publishing
         variables: {
             input: {
                 groupingKey: "now",
@@ -38,6 +38,7 @@ function publish(event){
         }
     });
 
+    // fire the request!
     return axios({
         method: 'post',
         url: config.ENDPOINT,

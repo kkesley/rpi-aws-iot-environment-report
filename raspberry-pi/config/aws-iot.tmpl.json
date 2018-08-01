@@ -1,0 +1,9 @@
+{
+    "__comment": "create aws-iot.json in current folder",
+    "client": "YOUR DEVICE NAME",
+    "endpoint": "xxxxxxxx.iot.{region}.amazonaws.com",
+    "port": 8883,
+    "root-ca": "./root-ca.pem",
+    "private-key": "PATH/TO/PRIVATE-KEY.key",
+    "certificate": "PATH/TO/CERTIFICATE.crt"
+}

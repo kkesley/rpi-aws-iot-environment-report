@@ -1,15 +1,40 @@
 from AWSIoTPythonSDK.MQTTLib import AWSIoTMQTTClient
 class IOTCore:
     def __init__(self):
+        config = {}
+        # read the config file
+        try:
+            config_file = open('./config/aws-iot.json')
+            # parse the content into dictionary
+            config = json.loads(config_file.read())
+        except FileNotFoundError:
+            print("file not found")
+            raise
+        
         # connect to iot
-        self.client = AWSIoTMQTTClient("raspberry-RMIT")
-        self.client.configureEndpoint("a2jwan9azy4oaj.iot.ap-southeast-2.amazonaws.com", 8883)
-        self.client.configureCredentials("./root-ca.pem", "./f3ed0017cd-private.pem.key", "./f3ed0017cd-certificate.pem.crt")
-        self.client.connect()
+        try:
+            self.client = AWSIoTMQTTClient(config["client"])
+            self.client.configureEndpoint(config["host"], config["port"])
+            self.client.configureCredentials(config["root-ca"], config["private-key"], config["certificate"])
+            self.client.connect()
+        except KeyError:
+            print("Key not found")
+            raise
+        except (AWSIoTPythonSDK.exception.operationTimeoutException, AWSIoTPythonSDK.exception.operationError) as err:
+            print(err)
+            raise
+        except:
+            print("unknown error")
     
     def publish(self, key, data):
         # publish data to iot
-        self.client.publish(key, data, 0)
+        try:
+            self.client.publish(key, data, 0)
+        except (AWSIoTPythonSDK.exception.operationTimeoutException, AWSIoTPythonSDK.exception.operationError) as err:
+            print(err)
+            raise
+        except:
+            print("unknown error")
     
     def disconnect(self):
         # disconnect from iot

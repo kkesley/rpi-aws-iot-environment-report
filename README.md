@@ -1,4 +1,4 @@
-# Raspberry Pi Environment Reporting using AWS IOT
+# Simple Realtime Environment Reporting using AWS IOT & Raspberry Pi
 
 Realtime Temperature / Humidity / Pressure reporting using raspberry pi and AWS IoT
 
@@ -11,6 +11,8 @@ Realtime Temperature / Humidity / Pressure reporting using raspberry pi and AWS 
 ## Front End
 
 Run `npm install` in the `front-end` folder
+
+Create `AppSync.js` in `front-end/src/Config`. Use the template provided `AppSync.tmpl.js`. Don't forget to change the variables.
 
 Try the app using `npm run start` / `yarn start`
 
@@ -37,11 +39,14 @@ Note: the application is designed to stay within free tier limitation. If your f
 
 1. AWS Credentials attached in the computer https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-started.html
 
+
+Create `serverless.yml` in `./server`. Use the template provided `serverless.tmpl.yml`. Don't forget to change the custom variables.
+
+Deploy the application using `sls deploy`
+
 1. Go to AWS AppSync, create a project and start with the schema in `schema.graphql` placed in this repo.
 
 1. Connect the mutation and query with the dynamodb table which is created later by the serverless framework
-
-Deploy the application using `sls deploy`
 
 
 ## Raspberry PI
@@ -55,3 +60,11 @@ Designed using `Raspberry Pi 3 model B` & `Raspberry Pi sense hat`. Make sure yo
 1. `pip install AWSIoTMQTTClient`
 
 1. `pip install SenseHat`
+
+1. Create your device in AWS IoT Core. use this guide https://docs.aws.amazon.com/iot/latest/developerguide/iot-sdk-setup.html
+
+1. Make note of your certificate location. Will be used in `config` file (`aws-iot.json`)
+
+Create `aws-iot.json` in `./raspberry-pi/config`. Use the template provided `aws-iot.tmpl.json`. Don't forget to change the variables.
+
+Create `pushbullet.json` in `./raspberry-pi/config`. Use the template provided `pushbullet.tmpl.json`. Don't forget to change the variables.
