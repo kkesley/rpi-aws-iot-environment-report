@@ -1,0 +1,9 @@
+{
+    "push-url": "https://api.pushbullet.com/v2/pushes",
+    "access-token": "YOUR_ACCESS_TOKEN",
+    "message": {
+        "body": "It's cold out there! {0} degree requires you to wear a scarf!",
+        "title": "Winter is coming!",
+        "type": "note"
+    }
+}

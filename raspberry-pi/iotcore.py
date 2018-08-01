@@ -1,9 +1,15 @@
 from AWSIoTPythonSDK.MQTTLib import AWSIoTMQTTClient
 class IOTCore:
     def __init__(self):
-        config_file = open('aws-iot.json')
-        config = json.loads(config_file.read())
-        print(config)
+        config = {}
+        # read the config file
+        try:
+            config_file = open('./config/aws-iot.json')
+            # parse the content into dictionary
+            config = json.loads(config_file.read())
+        except FileNotFoundError:
+            print("file not found")
+            raise
         
         # connect to iot
         try:

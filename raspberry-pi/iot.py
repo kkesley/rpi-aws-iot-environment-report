@@ -19,5 +19,7 @@ try:
     iotConnector.disconnect()
 except KeyError:
     print("Invalid config file")
+except FileNotFoundError:
+    print("config file not found")
 except:
     print("Cannot publish to iot core")
