@@ -1,0 +1,32 @@
+﻿type Environment {
+  created_at: Float
+  device: String
+  groupingKey: ID!
+  humidity: Float
+  pressure: Float
+  temperature: Float
+  timestamp: Int
+}
+
+type Mutation {
+  createEnvironment(input: CreateEnvironmentInput!): Environment
+}
+
+type Query {
+  getEnvironment(groupingKey: ID!, timestamp: Int!): Environment
+}
+
+type Subscription {
+  onCreateEnvironment(groupingKey: ID!, timestamp: Int!): Environment
+    @aws_subscribe(mutations:["createEnvironment"])
+}
+
+input CreateEnvironmentInput {
+  created_at: Float!
+  device: String!
+  groupingKey: ID!
+  humidity: Float!
+  pressure: Float!
+  temperature: Float!
+  timestamp: Int!
+}

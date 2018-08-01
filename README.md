@@ -37,6 +37,10 @@ Note: the application is designed to stay within free tier limitation. If your f
 
 1. AWS Credentials attached in the computer https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-started.html
 
+1. Go to AWS AppSync, create a project and start with the schema in `schema.graphql` placed in this repo.
+
+1. Connect the mutation and query with the dynamodb table which is created later by the serverless framework
+
 Deploy the application using `sls deploy`
 
 
