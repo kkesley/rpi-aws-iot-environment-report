@@ -23,7 +23,7 @@ for item in result.get_points("notification_history"):
 devices = []
 try:
     pusher = pushbullet.PushBullet()
-    # pusher.pushNotification(reading["temperature"])
+    pusher.pushNotification(reading["temperature"])
     devices = pusher.getDevices()
 except KeyError:
     print("please check your configuration file")
@@ -50,4 +50,4 @@ for device in devices:
             "device": device
         }
     })
-# client.write_points(data)
+client.write_points(data)
