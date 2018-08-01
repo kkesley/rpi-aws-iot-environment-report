@@ -44,13 +44,13 @@ class PushBullet:
         req.add_header('Access-Token', self.access_token)
         try:
             # send request to pushbullet api
-            resp = request.urlopen(req)
-        except error.URLError:
-            print("invalid url")
-            raise
+            request.urlopen(req)
         except error.HTTPError as err:
             # pushbullet api return error
             print(err)
+            raise
+        except error.URLError:
+            print("invalid url")
             raise
 
     def getDevices(self):
@@ -59,11 +59,11 @@ class PushBullet:
         resp = None
         try:    
             resp = request.urlopen(req)
-        except error.URLError:
-            print("invalid url")
-            raise
         except error.HTTPError as err:
             print(err)
+            raise
+        except error.URLError:
+            print("invalid url")
             raise
 
         devices = []

@@ -1,4 +1,5 @@
-from AWSIoTPythonSDK.MQTTLib import AWSIoTMQTTClient
+from AWSIoTPythonSDK.MQTTLib import AWSIoTMQTTClient, exception
+import json
 class IOTCore:
     def __init__(self):
         config = {}
@@ -20,7 +21,7 @@ class IOTCore:
         except KeyError:
             print("Key not found")
             raise
-        except (AWSIoTPythonSDK.exception.operationTimeoutException, AWSIoTPythonSDK.exception.operationError) as err:
+        except (exception.operationTimeoutException, exception.operationError) as err:
             print(err)
             raise
         except:
@@ -30,7 +31,7 @@ class IOTCore:
         # publish data to iot
         try:
             self.client.publish(key, data, 0)
-        except (AWSIoTPythonSDK.exception.operationTimeoutException, AWSIoTPythonSDK.exception.operationError) as err:
+        except (exception.operationTimeoutException, exception.operationError) as err:
             print(err)
             raise
         except:

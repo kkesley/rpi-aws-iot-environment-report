@@ -1,9 +1,10 @@
 {
     "__comment": "create pushbullet.json in current folder",
     "push-url": "https://api.pushbullet.com/v2/pushes",
+    "device-url": "https://api.pushbullet.com/v2/devices",
     "access-token": "YOUR_ACCESS_TOKEN",
     "message": {
-        "body": "It's cold out there! {0} degree requires you to wear a scarf!",
+        "body": "It's cold out there! {0:.2f} degree requires you to wear a scarf!",
         "title": "Winter is coming!",
         "type": "note"
     }
