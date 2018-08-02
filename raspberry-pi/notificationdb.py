@@ -1,12 +1,12 @@
 from influxdb import InfluxDBClient, exceptions
 class NotificationDB:
     def __init__(self):
-        self.config = {} # config placeholder
+        config = {} # config placeholder
         # read the config file
         try:
             config_file = open('./config/influxdb.json')
             # parse the content into dictionary
-            self.config = json.loads(config_file.read())
+            config = json.loads(config_file.read())
         except FileNotFoundError:
             print("file not found")
             raise
