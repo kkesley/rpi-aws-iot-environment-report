@@ -1,9 +1,21 @@
 from influxdb import InfluxDBClient, exceptions
 class NotificationDB:
     def __init__(self):
+        self.config = {} # config placeholder
+        # read the config file
+        try:
+            config_file = open('./config/influxdb.json')
+            # parse the content into dictionary
+            self.config = json.loads(config_file.read())
+        except FileNotFoundError:
+            print("file not found")
+            raise
         try:
             # connect to influx db
-            self.client = InfluxDBClient('localhost', 8086, 'kendrick', 'iotrmit', 'environment')
+            self.client = InfluxDBClient(config["host"], config["port"], config["username"], config["password"], config["database"])
+        except KeyError:
+            print("key error")
+            raise
         except (exceptions.InfluxDBClientError, exceptions.InfluxDBServerError) as err:
             print(err)
             raise

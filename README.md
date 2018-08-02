@@ -68,3 +68,5 @@ Designed using `Raspberry Pi 3 model B` & `Raspberry Pi sense hat`. Make sure yo
 Create `aws-iot.json` in `./raspberry-pi/config`. Use the template provided `aws-iot.tmpl.json`. Don't forget to change the variables.
 
 Create `pushbullet.json` in `./raspberry-pi/config`. Use the template provided `pushbullet.tmpl.json`. Don't forget to change the variables.
+
+Create `influxdb.json` in `./raspberry-pi/config`. Use the template provided `influxdb.tmpl.json`. Don't forget to change the variables.
