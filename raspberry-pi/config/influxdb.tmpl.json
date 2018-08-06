@@ -1,0 +1,7 @@
+{
+    "host": "localhost",
+    "port": 8086,
+    "username": "kendrick",
+    "password": "iotrmit",
+    "database": "environment"
+}

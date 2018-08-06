@@ -57,6 +57,12 @@ Designed using `Raspberry Pi 3 model B` & `Raspberry Pi sense hat`. Make sure yo
 
 1. pip
 
+1. `pip install influxdb`
+
+1. start influxdb `sudo service influxdb start` or you can make it auto start on reboot using `sudo update-rc.d influxdb defaults`
+
+1. Create influxdb user and database. you can go to the admin page at `{your raspberry ip address}:8083`. Note that the port may not always be `8083`. Please check if you cannot use port `8083`
+
 1. `pip install AWSIoTMQTTClient`
 
 1. `pip install SenseHat`
@@ -68,3 +74,5 @@ Designed using `Raspberry Pi 3 model B` & `Raspberry Pi sense hat`. Make sure yo
 Create `aws-iot.json` in `./raspberry-pi/config`. Use the template provided `aws-iot.tmpl.json`. Don't forget to change the variables.
 
 Create `pushbullet.json` in `./raspberry-pi/config`. Use the template provided `pushbullet.tmpl.json`. Don't forget to change the variables.
+
+Create `influxdb.json` in `./raspberry-pi/config`. Use the template provided `influxdb.tmpl.json`. Don't forget to change the variables.
