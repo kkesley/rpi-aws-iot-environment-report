@@ -73,7 +73,13 @@ class Environment extends Component {
               <h1 style={{color: color, textStrokeColor: color, WebkitTextStrokeColor: color}}>
               {Math.round(this.props.environment.temperature)} <sup style={{marginLeft:-30,fontSize: '6rem'}}>&deg;C</sup>
               </h1>
+              
             </span>
+            <div className="sub-info">
+              <div className="m-error_description" style={{ textAlign:"center", display:'inline'}}>
+                <span style={{color:color}}>Updated at: {moment(this.props.environment.created_at).format("DD-MM-YYYY HH:mm:ss")}</span>
+              </div>
+            </div>
             <div className="sub-info">
               {
                 this.props.environment.humidity ?
@@ -84,7 +90,7 @@ class Environment extends Component {
               {
                 this.props.environment.pressure ?
                 <div className="m-error_description" style={{marginLeft:10, display:'inline'}}>
-                  <h2 style={{color:color, textStrokeColor: color, WebkitTextStrokeColor: color, display:"inline"}}>Pressure: {this.props.environment.pressure.toFixed(2)} mbar</h2>
+                  <h2 style={{color:color, textStrokeColor: color, WebkitTextStrokeColor: color, display:"inline"}}>Pressure: {this.props.environment.pressure.toFixed(2)} mBar</h2>
                 </div>:null
               }
             </div>
