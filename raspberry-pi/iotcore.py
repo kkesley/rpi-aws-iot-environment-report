@@ -1,4 +1,5 @@
 from AWSIoTPythonSDK.MQTTLib import AWSIoTMQTTClient
+from influxdb import exceptions
 from AWSIoTPythonSDK import exception
 import json
 class IOTCore:

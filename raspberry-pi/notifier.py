@@ -1,8 +1,9 @@
 import sys
 import pushbullet
-
+from influxdb import exceptions
 from datetime import datetime
 import reading
+import notificationdb
 
 # initialize system reading for reading environment
 sysreader = reading.Reading()
@@ -10,7 +11,8 @@ sysreader = reading.Reading()
 reading = sysreader.getReading()
 
 # exit the program if the temperature is more than 20
-if(reading["temperature"] > 20):
+if(reading["temperature"] > 30):
+    print(reading["temperature"])
     sys.exit(0)
 
 
@@ -35,7 +37,7 @@ except (exceptions.InfluxDBClientError, exceptions.InfluxDBServerError) as err:
 devices = []
 try:
     pusher = pushbullet.PushBullet()
-    pusher.pushNotification(reading["temperature"])
+    pusher.pushNotification(reading["temperature"], "cold")
     devices = pusher.getDevices()
 except KeyError:
     print("please check your configuration file")

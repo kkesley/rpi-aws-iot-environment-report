@@ -1,9 +1,10 @@
 from urllib import request, parse, error
 import json
+import copy
 class PushBullet:
     def __init__(self):
         self.access_token = "" # pushbullet access token
-        self.push_message = {} # push message dict
+        self.message_set = {} # push message dict
         self.push_url = "" # url for pushing notification
         self.device_url = "" # url for getting devices list
         self.config = {} # config placeholder
@@ -18,26 +19,29 @@ class PushBullet:
         try:
             # initialize object variable from config
             self.access_token = self.config["access-token"]
-            self.push_message = self.config["message"]
+            self.message_set = self.config["message_set"]
             self.push_url = self.config["push-url"]
             self.device_url = self.config["device-url"]
         except KeyError:
             print("key error")
             raise
 
-    def pushNotification(self, temperature, device = None):
+    def pushNotification(self, temperature, message_set, name = '', device = None):
         # construct data for pushbullet api
+        message = copy.copy(self.message_set[message_set])
         try:
             if(device != None):
                 # target specific device
-                self.push_message["device_iden"] = device
+                message["device_iden"] = device
             #format body to display current temperature
-            self.push_message["body"] = self.push_message["body"].format(temperature)
+            message["body"] = self.message_set[message_set]["body"].format(temperature, name)
+                
+            
         except KeyError:
             print("key error")
             raise
 
-        data = json.dumps(self.push_message).encode()
+        data = json.dumps(message).encode()
         #construct request object for pushbullet api
         req =  request.Request(self.push_url, data=data) # this will make the method "POST"
         req.add_header('Content-Type', 'application/json')
