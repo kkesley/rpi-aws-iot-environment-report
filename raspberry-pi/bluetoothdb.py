@@ -22,7 +22,7 @@ class BluetoothDB:
 
     def getDevices(self):
         try:
-            # check notification count for today
+            # check all devices
             result = self.client.query('select device_mac, latest_notification from bluetooth_devices')
             devices = []
             for item in result.get_points("bluetooth_devices"):
