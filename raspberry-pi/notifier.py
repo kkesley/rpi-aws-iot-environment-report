@@ -12,6 +12,7 @@ def main():
     # get reading from environment
     reader = sysreader.getReading()
 
+    # change temp based on env variable
     temp = os.environ.get('NOTIFICATION_TEMPERATURE', 20)
     if isinstance(temp, str):
         try:
