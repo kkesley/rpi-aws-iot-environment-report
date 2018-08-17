@@ -4,6 +4,7 @@ from influxdb import exceptions
 from datetime import datetime
 import reading
 import notificationdb
+import os
 
 def main():
     # initialize system reading for reading environment
@@ -11,8 +12,15 @@ def main():
     # get reading from environment
     reader = sysreader.getReading()
 
+    temp = os.environ.get('NOTIFICATION_TEMPERATURE', 20)
+    if isinstance(temp, str):
+        try:
+            temp = int(temp)
+        except ValueError:
+            temp = 20
+
     # exit the program if the temperature is more than 20
-    if(reader["temperature"] > 20):
+    if(reader["temperature"] > temp):
         print(reader["temperature"])
         sys.exit(0)
 
