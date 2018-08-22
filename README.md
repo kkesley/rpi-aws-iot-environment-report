@@ -2,6 +2,8 @@
 
 Realtime Temperature / Humidity / Pressure reporting using raspberry pi and AWS IoT
 
+Live Demo: http://rmit-iot.s3-website-ap-southeast-2.amazonaws.com/
+
 ## Prerequisite
 
 1. NodeJS: https://nodejs.org/en/
